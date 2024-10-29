@@ -1,0 +1,1 @@
+Responsável: fulano, Empresa: teste2,Razão social: rrr,Fantasia: ttt, Email: yyy,CPF reponsável: 222, Telefone: 333,CNPJ: 444, Rua: rua y, Número: 666, CEP: 777, Estado: rj
