@@ -1,1 +1,1 @@
-Respons·vel: fulano, Empresa: teste2,Raz„o social: rrr,Fantasia: ttt, Email: yyy,CPF repons·vel: 222, Telefone: 333,CNPJ: 444, Rua: rua y, N˙mero: 666, CEP: 777, Estado: rj
+Respons√°vel: carol, Empresa: teste2,Raz√£o social: x,Fantasia: c, Email: v,CPF repons√°vel: 1, Telefone: 2,CNPJ: 3, Rua: v, N√∫mero: 4, CEP: 5, Estado: sp

@@ -15,6 +15,11 @@ typedef struct {
 	char rua[50];
 }Endereco;
 
+typedef struct{
+	int residuosTratados;
+	float gastosMensais;
+}Relatorio;
+
 typedef struct {
 	char nomeResponsavel[30];
 	char nomeEmpresa[20];
@@ -23,8 +28,10 @@ typedef struct {
 	char email[20];
 	int cpf,telefone,cnpj;
 	Endereco endereco;
+	Relatorio relatorio;
 	int ativo;
 }Empresa;
+
 
 //defino tamanho do vetor empresa
 Empresa empresa[MAX_EMPRESAS];
@@ -33,19 +40,21 @@ Empresa empresa[MAX_EMPRESAS];
 void login();
 void menu();
 void cadastrar();
-void relatorio();
-void listarEmpresas();
+void consultas();
+//void listarEmpresas();
+void relatoriosIndividuais();
+
 int main(){
 	setlocale(LC_ALL, "Portuguese");
 
-	login();
+	// login();
 	menu();
 	return 0;
 }
 
 void login(){
 	system("cls");
-	printf("BEM VINDO, INSIRA SEU USU√ÅRIO E SENHA NOS CAMPOS ABAIXO\n");
+	printf("BEM VINDO, INSIRA SEU USU¡RIO E SENHA NOS CAMPOS ABAIXO\n");
 
     printf("Insira seu nome:\n");
     fgets(user, 21, stdin);
@@ -63,9 +72,10 @@ void menu(){
 	int num;
 	do{
 		printf("============== Menu principal ==============\n");
-        printf("Selecione uma das op√ß√µes abaixo:\n");
+        printf("Selecione uma das opÁıes abaixo:\n");
         printf("[1] Cadastrar nova empresa\n");
-        printf("[2] Empresas cadastradas\n");
+        printf("[2] Consultar empresas\n");
+        printf("[3] RelatÛrio de insumos tratados e gastos");
         printf("[0] Sair\n");
         scanf("%d", &num);
         getchar();
@@ -74,8 +84,10 @@ void menu(){
         		cadastrar();
         		break;
         	case 2:
-        		listarEmpresas();
+        		consultas();
         		break;
+        	case 3:
+        		relatoriosIndividuais();
 		}
 		getchar();
 	}
@@ -83,7 +95,6 @@ void menu(){
 }
 
 void cadastrar(){
-
 	system("cls");
 
 	char nomeResponsavel[30];
@@ -96,13 +107,11 @@ void cadastrar(){
 	char fileName[20];
 	int num,i;
 	
-
-	
 	do{
 		for(i =0; i<MAX_EMPRESAS;i++){
 					
 			printf("Insira os dados abaixo:\n");
-			puts("Nome do respons√°vel da empresa:");
+			puts("Nome do respons·vel da empresa:");
 			scanf(" %29[^\n]", empresa[i].nomeResponsavel);
 			getchar();
 			
@@ -110,7 +119,7 @@ void cadastrar(){
 		    scanf(" %19[^\n]", empresa[i].nomeEmpresa);
 		    getchar();
 		
-		    printf("Raz√£o Social: ");
+		    printf("Raz„o Social: ");
 		    scanf(" %29[^\n]", empresa[i].razaoSocial);
 		    getchar();
 		
@@ -138,7 +147,7 @@ void cadastrar(){
 		    scanf(" %49[^\n]", empresa[i].endereco.rua);
 		    getchar();
 		
-		    printf("N√∫mero: ");
+		    printf("N˙mero: ");
 		    scanf("%d", &empresa[i].endereco.numero);
 		    getchar();  
 		    
@@ -154,7 +163,7 @@ void cadastrar(){
 			FILE * ponteiroFile; 
 			ponteiroFile = fopen(fileName, "w");
 			
-		   	fprintf(ponteiroFile,"Respons√°vel: %s, Empresa: %s,Raz√£o social: %s,Fantasia: %s, Email: %s,CPF repons√°vel: %d, Telefone: %d,CNPJ: %d, Rua: %s, N√∫mero: %d, CEP: %d, Estado: %s\n",
+		   	fprintf(ponteiroFile,"Respons·vel: %s, Empresa: %s,Raz√£o social: %s,Fantasia: %s, Email: %s,CPF repons√°vel: %d, Telefone: %d,CNPJ: %d, Rua: %s, N√∫mero: %d, CEP: %d, Estado: %s\n",
 	        empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
 	        empresa[i].razaoSocial, empresa[i].nomeFantasia,
 	        empresa[i].email, empresa[i].cpf,
@@ -175,31 +184,80 @@ void cadastrar(){
 			break;
 		}
 	
-			printf("\n[1]Continuar cadastro\n[0] Sair\n");
+			printf("\n[1]Continuar cadastro\n[0] Voltar ao menu principal\n");
 			scanf("%d", &num);
 			getchar();
 		
 	}while(num !=0);
 	
-	
 }
 
 //verificar se existe a empresa antes de listar
-void listarEmpresas(){
-	system("cls");
-	int i;
-	printf("\n NOME DAS EMPRESAS: \n");
-	for(i =0; i<MAX_EMPRESAS; i++){
-		if(empresa[i].ativo == 1){
-			printf("\n -------------------- \n");
-			printf("Nome: %s\n", empresa[i].nomeEmpresa);
-		}	
-	}
+// void listarEmpresas(){
+// 	system("cls");
+// 	int i, encontrou = 0;
+// 	printf("\n NOME DAS EMPRESAS: \n");
+// 	for(i =0; i<MAX_EMPRESAS; i++){
+// 		if(empresa[i].ativo == 1){
+// 			printf("\n -------------------- \n");
+// 			printf("Nome: %s\n", empresa[i].nomeEmpresa);
+// 		}	
+// 	}
+// }
+
+
+void consultas(){
+	char nomeEmpresa[20];
+	int i, num;
+	do{
+		system("cls");
+		printf("Digite o nome da empresa que deseja fazer atualizaÁıes:\n");
+		scanf("%s", nomeEmpresa);
+		getchar();
+		for(i=0; i< MAX_EMPRESAS; i++ ){
+			if (strstr(empresa[i].nomeEmpresa, nomeEmpresa) != NULL ){
+				printf("A pesquisa retornou os seguintes resultados:\n");
+				printf("Nome da empresa: %s\n", empresa[i].nomeEmpresa);
+			}else {
+				printf("Empresa n„o encontrada!\n");
+			}
+			break;				
+		} 
+		printf("\n[1]Gerar relatÛrio consumo\n[0]Voltar ao menu principal\n");
+		
+		scanf("%d", &num);
+		getchar();
+	} while (num !=0);
 }
 
-
-void relatorio(){
+void relatoriosIndividuais(){
+	system("cls");
 	
-	
+	char nomeEmpresa[20];
+	int num,i;
+	printf("Insira qual empresa deseja realizar atualizaÁıes:\n");
+	fgets(nomeEmpresa, sizeof(nomeEmpresa), stdin);
 
+	for(i=0; i<MAX_EMPRESAS; i++){
+			if (strstr(empresa[i].nomeEmpresa, nomeEmpresa) != NULL ){
+				printf("Nome da empresa: %s\n", empresa[i].nomeEmpresa);
+				break;
+			}
+	}
+	printf("insira os dados abaixo: ");
+	do {
+		for(i = 0; i< MAX_EMPRESAS; i++){
+			printf("quantidade de resÌduos ambientais tratados pela empresa %s\n", nomeEmpresa );
+			scanf("%d", &empresa[i].relatorio.residuosTratados);
+
+			printf("valor estimado do custo do tratamento de resÌduos pela empresa %s\n", nomeEmpresa );
+			scanf("%f", &empresa[i].relatorio.residuosTratados);
+			printf("[0] Sair");
+			scanf("%d", &num);
+			break;
+		}
+	
+	}while(num!=0);
+ 
+ printf("AtualizaÁıes realizadas com sucesso!\n");
 }
