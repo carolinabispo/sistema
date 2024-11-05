@@ -47,24 +47,36 @@ void relatoriosIndividuais();
 int main(){
 	setlocale(LC_ALL, "Portuguese");
 
-	// login();
-	menu();
+	login();
+	//menu();
 	return 0;
 }
 
 void login(){
-	system("cls");
-	printf("BEM VINDO, INSIRA SEU USU�RIO E SENHA NOS CAMPOS ABAIXO\n");
+	const char correctUser[10] = "usuario";
+	const char correctPassword[10] = "senha123";
+	int logado = 0;
 
-    printf("Insira seu nome:\n");
-    fgets(user, 21, stdin);
-    fflush(stdin);
+    while ((logado == 0)){
+		system("cls");
+		printf("BEM VINDO, INSIRA SEU USUÁRIO E SENHA NOS CAMPOS ABAIXO:\n");
+		printf("Nome de usuario:\n");
+		scanf("%s", user);
+		getchar();
 
-    printf("Insira sua senha:\n");
-    fgets(password, 21, stdin);
-    fflush(stdin);
-    
-    printf("\n\nLOGADO!\n\n");
+		printf("Insira sua senha:\n");
+		scanf("%s", password);
+		getchar();
+
+		if(strcmp(user, correctUser) == 0 && strcmp(password, correctPassword) == 0){
+			printf("\n\nLOGADO!\n\n");
+			logado = 1;
+		}
+		else if (user != correctUser || password != correctPassword){
+			printf("Nome de usuario ou senha incorretos.\n");
+			getchar();
+		}
+	} 
 }
 
 void menu(){
@@ -72,13 +84,12 @@ void menu(){
 	int num;
 	do{
 		printf("============== Menu principal ==============\n");
-        printf("Selecione uma das op��es abaixo:\n");
+        printf("Selecione uma das opções abaixo:\n");
         printf("[1] Cadastrar nova empresa\n");
         printf("[2] Consultar empresas\n");
-        printf("[3] Relat�rio de insumos tratados e gastos");
+        printf("[3] Relatorio de insumos tratados e gastos\n");
         printf("[0] Sair\n");
         scanf("%d", &num);
-        getchar();
         switch(num){
         	case 1:
         		cadastrar();
@@ -97,13 +108,6 @@ void menu(){
 void cadastrar(){
 	system("cls");
 
-	char nomeResponsavel[30];
-	char nomeEmpresa[20];
-	char razaoSocial[30];
-	char nomeFantasia[30];
-	char email[20];
-	int cpf,telefone,cnpj;
-	Endereco endereco;
 	char fileName[20];
 	int num,i;
 	
@@ -111,7 +115,7 @@ void cadastrar(){
 		for(i =0; i<MAX_EMPRESAS;i++){
 					
 			printf("Insira os dados abaixo:\n");
-			puts("Nome do respons�vel da empresa:");
+			puts("Nome do responsável da empresa:");
 			scanf(" %29[^\n]", empresa[i].nomeResponsavel);
 			getchar();
 			
@@ -119,7 +123,7 @@ void cadastrar(){
 		    scanf(" %19[^\n]", empresa[i].nomeEmpresa);
 		    getchar();
 		
-		    printf("Raz�o Social: ");
+		    printf("Razão Social: ");
 		    scanf(" %29[^\n]", empresa[i].razaoSocial);
 		    getchar();
 		
@@ -147,7 +151,7 @@ void cadastrar(){
 		    scanf(" %49[^\n]", empresa[i].endereco.rua);
 		    getchar();
 		
-		    printf("N�mero: ");
+		    printf("Número: ");
 		    scanf("%d", &empresa[i].endereco.numero);
 		    getchar();  
 		    
@@ -163,13 +167,12 @@ void cadastrar(){
 			FILE * ponteiroFile; 
 			ponteiroFile = fopen(fileName, "w");
 			
-		   	fprintf(ponteiroFile,"Respons�vel: %s, Empresa: %s,Razão social: %s,Fantasia: %s, Email: %s,CPF reponsável: %d, Telefone: %d,CNPJ: %d, Rua: %s, Número: %d, CEP: %d, Estado: %s\n",
+		   	fprintf(ponteiroFile,"Responsavel: %s, Empresa: %s,Razão social: %s,Fantasia: %s, Email: %s,CPF reponsável: %d, Telefone: %d,CNPJ: %d, Rua: %s, Número: %d, CEP: %d, Estado: %s\n",
 	        empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
 	        empresa[i].razaoSocial, empresa[i].nomeFantasia,
 	        empresa[i].email, empresa[i].cpf,
 	        empresa[i].telefone, empresa[i].cnpj,
 	        empresa[i].endereco.rua, empresa[i].endereco.numero, empresa[i].endereco.cep, empresa[i].endereco.estado
-			// teste
 			);
 		
 			 //testa se criou o arquivo
@@ -180,14 +183,17 @@ void cadastrar(){
 			}
 			
 			fclose(ponteiroFile);
-//			printf("Empresa cadastrada e arquivo '%s' gerado.\n", fileName);
-			system("cls");
 			break;
 		}
-	
+			//Mudança na ordem do getchar() e system() para o printf() não desparecer.
+			printf("Empresa cadastrada e arquivo '%s' gerado.\n", fileName);
+			printf("Aperte Enter para continuar!");
+			getchar();
+			system("cls");
+
 			printf("\n[1]Continuar cadastro\n[0] Voltar ao menu principal\n");
 			scanf("%d", &num);
-			getchar();
+			system("cls");
 		
 	}while(num !=0);
 	
@@ -212,7 +218,7 @@ void consultas(){
 	int i, num;
 	do{
 		system("cls");
-		printf("Digite o nome da empresa que deseja fazer atualiza��es:\n");
+		printf("Digite o nome da empresa que deseja fazer atualizações:\n");
 		scanf("%s", nomeEmpresa);
 		getchar();
 		for(i=0; i< MAX_EMPRESAS; i++ ){
@@ -220,11 +226,11 @@ void consultas(){
 				printf("A pesquisa retornou os seguintes resultados:\n");
 				printf("Nome da empresa: %s\n", empresa[i].nomeEmpresa);
 			}else {
-				printf("Empresa n�o encontrada!\n");
+				printf("Empresa não encontrada!\n");
 			}
 			break;				
 		} 
-		printf("\n[1]Gerar relat�rio consumo\n[0]Voltar ao menu principal\n");
+		printf("\n[1]Gerar relatório consumo\n[0]Voltar ao menu principal\n");
 		
 		scanf("%d", &num);
 		getchar();
@@ -236,7 +242,7 @@ void relatoriosIndividuais(){
 	
 	char nomeEmpresa[20];
 	int num,i;
-	printf("Insira qual empresa deseja realizar atualiza��es:\n");
+	printf("Insira qual empresa deseja realizar atualizações:\n");
 	fgets(nomeEmpresa, sizeof(nomeEmpresa), stdin);
 
 	for(i=0; i<MAX_EMPRESAS; i++){
@@ -248,11 +254,11 @@ void relatoriosIndividuais(){
 	printf("insira os dados abaixo: ");
 	do {
 		for(i = 0; i< MAX_EMPRESAS; i++){
-			printf("quantidade de res�duos ambientais tratados pela empresa %s\n", nomeEmpresa );
+			printf("quantidade de resíduos ambientais tratados pela empresa %s\n", nomeEmpresa );
 			scanf("%d", &empresa[i].relatorio.residuosTratados);
 
-			printf("valor estimado do custo do tratamento de res�duos pela empresa %s\n", nomeEmpresa );
-			scanf("%f", &empresa[i].relatorio.residuosTratados);
+			printf("valor estimado do custo do tratamento de resíduos pela empresa %s\n", nomeEmpresa );
+			scanf("%f", &empresa[i].relatorio.gastosMensais);
 			printf("[0] Sair");
 			scanf("%d", &num);
 			break;
@@ -260,5 +266,5 @@ void relatoriosIndividuais(){
 	
 	}while(num!=0);
  
- printf("Atualiza��es realizadas com sucesso!\n");
+ printf("Atualizações realizadas com sucesso!\n");
 }
