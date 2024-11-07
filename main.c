@@ -9,16 +9,6 @@
 char user[20];
 char password[20];
 
-//configura�ao da chavbe para criptografia
-char CHAVE[] = "AbcDeF";
-#define TAM_CHAVE (sizeof(CHAVE) - 1)
-
-//vetor de entrada do texto a ser criptografado
-
-//vetor de entrada do texto a ser criptografado
-char TEXTO[500];
-int TAM_TEXTO = 500; 
-
 typedef struct {
 	char numero[6];
 	char cep[11];
@@ -52,18 +42,12 @@ Empresa empresa[MAX_EMPRESAS];
 void login();
 void menu();
 void cadastrar();
-void consultas();
-//void listarEmpresas();
-void relatoriosIndividuais();
-void criptografar();
-void recebeArquivo();
 void gerarRelatorio();
 //void relatoriosIndividuais();
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
 
-//	login();
 	//login();
 	menu();
 	return 0;
@@ -99,74 +83,28 @@ void login(){
 void menu(){
 	system("cls");
 	int num;
-	
-	while(1){
-			printf("============== Menu principal ==============\n");
-        printf("Selecione uma das op��es abaixo:\n");
 	do{
 		printf("============== Menu principal ==============\n");
         printf("Selecione uma das opções abaixo:\n");
         printf("[1] Cadastrar nova empresa\n");
-        printf("[2] Consultar empresas\n");
-        printf("[3] Relat�rio de insumos tratados e gastos\n");
-        printf("[4] Sair\n");
         printf("[2] Cadastrar insumos e gastos\n");
         printf("[3] Relatorio de insumos tratados e gastos\n");
         printf("[0] Sair\n");
         scanf("%d", &num);
-        getchar();
-          switch(num){
         switch(num){
         	case 1:
-        		system("cls");
         		cadastrar();
         		break;
         	case 2:
-        		system("cls");
-        		consultas();
         		//relatoriosIndividuais();
         		break;
         	case 3:
-        		system("cls");
-//        		relatoriosIndividuais();
-				recebeArquivo("arquivo");
-        	case 4:
-        		system("cls");
-        		printf("\n Finalizando...\n");
-        		system("pause");
-        		exit(0);
-        	default:
-        		printf("Op��o inv�lida tente novamente");
-		}
-        
-	}
-//	do{
-//		printf("============== Menu principal ==============\n");
-//        printf("Selecione uma das op��es abaixo:\n");
-//        printf("[1] Cadastrar nova empresa\n");
-//        printf("[2] Consultar empresas\n");
-//        printf("[3] Relat�rio de insumos tratados e gastos");
-//        printf("[0] Sair\n");
-//        scanf("%d", &num);
-//        getchar();
-//        switch(num){
-//        	case 1:
-//        		cadastrar();
-//        		break;
-//        	case 2:
-//        		consultas();
-//        		break;
-//        	case 3:
-//        		relatoriosIndividuais();
-//		}
-//		getchar();
-//	}
-//	while(num !=0);
         		gerarRelatorio();
                 break;
-			getchar();
-		
-	}while(num !=0);
+		}
+		getchar();
+	}
+	while(num !=0);
 }
 
 void cadastrar(){
@@ -232,8 +170,8 @@ void cadastrar(){
             scanf("%d", &num);
             system("cls");
 
-        
-            // if (num == 0) break;
+            if (num == 0) break;
+        }
     } while (num != 0);
 }
 
@@ -264,39 +202,6 @@ void cadastrar(){
 			break;
 		}
 	}while(num!=0);
- 
- printf("Atualiza��es realizadas com sucesso!\n");
-}
-
-void criptografar(){
-	
-}
-
-
-void recebeArquivo(char tipo[]){
-	char aux[TAM_TEXTO];
-	if(strcmp(tipo, "arquivo")== 0){
-		printf("\n\nRecebendo arquivo\n\n");
-		relatoriosIndividuais()	;
-		
-		if(strlen(aux) <=TAM_TEXTO){
-			printf("TEXTO RECEBIDO");
-			printf("criptografando");
-		}		
-//if (strlen(TEXTO) > 0 && strlen(TEXTO) <= TAM_TEXTO) {
-//            strncpy(aux, TEXTO, TAM_TEXTO - 1);
-//            aux[TAM_TEXTO - 1] = '\0';  // Garante o t�rmino da string em aux
-//            printf("Conte�do recebido: %s\n", aux);
-//        } else {
-//            printf("Erro: o conte�do do texto est� fora do tamanho permitido.\n");
-//        }
-
-		system("pause");
-	}else{
-		printf("\n\nErro ao receber arquivo\n\n");
-	}
-}
-
     
     printf("Atualizações realizadas com sucesso!\n");
 }*/
