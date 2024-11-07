@@ -9,6 +9,16 @@
 char user[20];
 char password[20];
 
+//configuraï¿½ao da chavbe para criptografia
+char CHAVE[] = "AbcDeF";
+#define TAM_CHAVE (sizeof(CHAVE) - 1)
+
+//vetor de entrada do texto a ser criptografado
+
+//vetor de entrada do texto a ser criptografado
+char TEXTO[500];
+int TAM_TEXTO = 500; 
+
 typedef struct {
 	int numero,cep;
 	char estado[20];
@@ -43,18 +53,20 @@ void cadastrar();
 void consultas();
 //void listarEmpresas();
 void relatoriosIndividuais();
+void criptografar();
+void recebeArquivo();
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
 
-	// login();
+//	login();
 	menu();
 	return 0;
 }
 
 void login(){
 	system("cls");
-	printf("BEM VINDO, INSIRA SEU USUÁRIO E SENHA NOS CAMPOS ABAIXO\n");
+	printf("BEM VINDO, INSIRA SEU USUï¿½RIO E SENHA NOS CAMPOS ABAIXO\n");
 
     printf("Insira seu nome:\n");
     fgets(user, 21, stdin);
@@ -70,28 +82,61 @@ void login(){
 void menu(){
 	system("cls");
 	int num;
-	do{
-		printf("============== Menu principal ==============\n");
-        printf("Selecione uma das opções abaixo:\n");
+	
+	while(1){
+			printf("============== Menu principal ==============\n");
+        printf("Selecione uma das opï¿½ï¿½es abaixo:\n");
         printf("[1] Cadastrar nova empresa\n");
         printf("[2] Consultar empresas\n");
-        printf("[3] Relatório de insumos tratados e gastos");
-        printf("[0] Sair\n");
+        printf("[3] Relatï¿½rio de insumos tratados e gastos\n");
+        printf("[4] Sair\n");
         scanf("%d", &num);
         getchar();
-        switch(num){
+          switch(num){
         	case 1:
+        		system("cls");
         		cadastrar();
         		break;
         	case 2:
+        		system("cls");
         		consultas();
         		break;
         	case 3:
-        		relatoriosIndividuais();
+        		system("cls");
+//        		relatoriosIndividuais();
+				recebeArquivo("arquivo");
+        	case 4:
+        		system("cls");
+        		printf("\n Finalizando...\n");
+        		system("pause");
+        		exit(0);
+        	default:
+        		printf("Opï¿½ï¿½o invï¿½lida tente novamente");
 		}
-		getchar();
+        
 	}
-	while(num !=0);
+//	do{
+//		printf("============== Menu principal ==============\n");
+//        printf("Selecione uma das opï¿½ï¿½es abaixo:\n");
+//        printf("[1] Cadastrar nova empresa\n");
+//        printf("[2] Consultar empresas\n");
+//        printf("[3] Relatï¿½rio de insumos tratados e gastos");
+//        printf("[0] Sair\n");
+//        scanf("%d", &num);
+//        getchar();
+//        switch(num){
+//        	case 1:
+//        		cadastrar();
+//        		break;
+//        	case 2:
+//        		consultas();
+//        		break;
+//        	case 3:
+//        		relatoriosIndividuais();
+//		}
+//		getchar();
+//	}
+//	while(num !=0);
 }
 
 void cadastrar(){
@@ -111,7 +156,7 @@ void cadastrar(){
 		for(i =0; i<MAX_EMPRESAS;i++){
 					
 			printf("Insira os dados abaixo:\n");
-			puts("Nome do responsável da empresa:");
+			puts("Nome do responsï¿½vel da empresa:");
 			scanf(" %29[^\n]", empresa[i].nomeResponsavel);
 			getchar();
 			
@@ -119,7 +164,7 @@ void cadastrar(){
 		    scanf(" %19[^\n]", empresa[i].nomeEmpresa);
 		    getchar();
 		
-		    printf("Razão Social: ");
+		    printf("Razï¿½o Social: ");
 		    scanf(" %29[^\n]", empresa[i].razaoSocial);
 		    getchar();
 		
@@ -147,7 +192,7 @@ void cadastrar(){
 		    scanf(" %49[^\n]", empresa[i].endereco.rua);
 		    getchar();
 		
-		    printf("Número: ");
+		    printf("Nï¿½mero: ");
 		    scanf("%d", &empresa[i].endereco.numero);
 		    getchar();  
 		    
@@ -163,7 +208,7 @@ void cadastrar(){
 			FILE * ponteiroFile; 
 			ponteiroFile = fopen(fileName, "w");
 			
-		   	fprintf(ponteiroFile,"Responsável: %s, Empresa: %s,RazÃ£o social: %s,Fantasia: %s, Email: %s,CPF reponsÃ¡vel: %d, Telefone: %d,CNPJ: %d, Rua: %s, NÃºmero: %d, CEP: %d, Estado: %s\n",
+		   	fprintf(ponteiroFile,"Responsï¿½vel: %s, Empresa: %s,RazÃ£o social: %s,Fantasia: %s, Email: %s,CPF reponsÃ¡vel: %d, Telefone: %d,CNPJ: %d, Rua: %s, NÃºmero: %d, CEP: %d, Estado: %s\n",
 	        empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
 	        empresa[i].razaoSocial, empresa[i].nomeFantasia,
 	        empresa[i].email, empresa[i].cpf,
@@ -211,7 +256,7 @@ void consultas(){
 	int i, num;
 	do{
 		system("cls");
-		printf("Digite o nome da empresa que deseja fazer atualizações:\n");
+		printf("Digite o nome da empresa que deseja fazer atualizaï¿½ï¿½es:\n");
 		scanf("%s", nomeEmpresa);
 		getchar();
 		for(i=0; i< MAX_EMPRESAS; i++ ){
@@ -219,11 +264,11 @@ void consultas(){
 				printf("A pesquisa retornou os seguintes resultados:\n");
 				printf("Nome da empresa: %s\n", empresa[i].nomeEmpresa);
 			}else {
-				printf("Empresa não encontrada!\n");
+				printf("Empresa nï¿½o encontrada!\n");
 			}
 			break;				
 		} 
-		printf("\n[1]Gerar relatório consumo\n[0]Voltar ao menu principal\n");
+		printf("\n[1]Gerar relatï¿½rio consumo\n[0]Voltar ao menu principal\n");
 		
 		scanf("%d", &num);
 		getchar();
@@ -235,7 +280,7 @@ void relatoriosIndividuais(){
 	
 	char nomeEmpresa[20];
 	int num,i;
-	printf("Insira qual empresa deseja realizar atualizações:\n");
+	printf("Insira qual empresa deseja realizar atualizaï¿½ï¿½es:\n");
 	fgets(nomeEmpresa, sizeof(nomeEmpresa), stdin);
 
 	for(i=0; i<MAX_EMPRESAS; i++){
@@ -247,10 +292,10 @@ void relatoriosIndividuais(){
 	printf("insira os dados abaixo: ");
 	do {
 		for(i = 0; i< MAX_EMPRESAS; i++){
-			printf("quantidade de resíduos ambientais tratados pela empresa %s\n", nomeEmpresa );
+			printf("quantidade de resï¿½duos ambientais tratados pela empresa %s\n", nomeEmpresa );
 			scanf("%d", &empresa[i].relatorio.residuosTratados);
 
-			printf("valor estimado do custo do tratamento de resíduos pela empresa %s\n", nomeEmpresa );
+			printf("valor estimado do custo do tratamento de resï¿½duos pela empresa %s\n", nomeEmpresa );
 			scanf("%f", &empresa[i].relatorio.residuosTratados);
 			printf("[0] Sair");
 			scanf("%d", &num);
@@ -259,5 +304,34 @@ void relatoriosIndividuais(){
 	
 	}while(num!=0);
  
- printf("Atualizações realizadas com sucesso!\n");
+ printf("Atualizaï¿½ï¿½es realizadas com sucesso!\n");
+}
+
+void criptografar(){
+	
+}
+
+
+void recebeArquivo(char tipo[]){
+	char aux[TAM_TEXTO];
+	if(strcmp(tipo, "arquivo")== 0){
+		printf("\n\nRecebendo arquivo\n\n");
+		relatoriosIndividuais()	;
+		
+		if(strlen(aux) <=TAM_TEXTO){
+			printf("TEXTO RECEBIDO");
+			printf("criptografando");
+		}		
+//if (strlen(TEXTO) > 0 && strlen(TEXTO) <= TAM_TEXTO) {
+//            strncpy(aux, TEXTO, TAM_TEXTO - 1);
+//            aux[TAM_TEXTO - 1] = '\0';  // Garante o tï¿½rmino da string em aux
+//            printf("Conteï¿½do recebido: %s\n", aux);
+//        } else {
+//            printf("Erro: o conteï¿½do do texto estï¿½ fora do tamanho permitido.\n");
+//        }
+
+		system("pause");
+	}else{
+		printf("\n\nErro ao receber arquivo\n\n");
+	}
 }
