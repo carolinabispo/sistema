@@ -1,0 +1,38 @@
+Relatório Geral:
+ • Responsável: v
+ • Empresa: v
+ • Razão social: v
+ • Fantasia: v
+ • Email: v
+ • CPF: vv
+ • Telefone: v
+ • CNPJ: v
+ • Rua: v
+ • Número: v
+ • CEP: v
+ • Estado: v
+------------------------------
+Relatório de insumos e gastos:
+• Resíduos tratados semestralmente: 1332
+• Gastos mensais: 6660,00
+
+---------------------------------------
+Relatório Geral:
+ • Responsável: v
+ • Empresa: v
+ • Razão social: v
+ • Fantasia: v
+ • Email: v
+ • CPF: vv
+ • Telefone: v
+ • CNPJ: v
+ • Rua: v
+ • Número: v
+ • CEP: v
+ • Estado: v
+------------------------------
+Relatório de insumos e gastos:
+• Resíduos tratados semestralmente: 3000
+• Gastos mensais: 27000,00
+
+---------------------------------------
