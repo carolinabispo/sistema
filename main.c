@@ -42,8 +42,9 @@ Empresa empresa[MAX_EMPRESAS];
 void login();
 void menu();
 void cadastrar();
-void gerarRelatorio();
+void relatorio();
 void relatoriosIndividuais();
+void gerarRelatorio();
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
@@ -99,7 +100,7 @@ void menu(){
         		relatoriosIndividuais();
         		break;
         	case 3:
-        		gerarRelatorio();
+        		relatorio();
                 break;
 		}
 		getchar();
@@ -114,7 +115,7 @@ void cadastrar(){
     do {
         for (i = 0; i < MAX_EMPRESAS; i++) {
             printf("Insira os dados abaixo:\n");
-            puts("Nome do responsável da empresa:");
+            puts("Nome do responsavel da empresa:");
             scanf(" %29[^\n]", empresa[i].nomeResponsavel);
             getchar();
             
@@ -216,13 +217,13 @@ void relatoriosIndividuais(){
 		}
 }
 
-void gerarRelatorio() {
+void relatorio() {
     char nomeEmpresa[20];
     int i, num;
     
     do {
         system("cls");
-        printf("Digite o nome da empresa que deseja exibir o relatório\n");
+        printf("Digite o nome da empresa que deseja exibir o relatorio\n");
         scanf(" %19[^\n]", nomeEmpresa);
         getchar();
 
@@ -240,7 +241,6 @@ void gerarRelatorio() {
         if (!empresaEncontrada) {
             printf("Empresa nao cadastrada\n");
         }
-        system("cls");
         printf("\n[1] Gerar relatorio de consumo\n[0] Voltar ao menu principal\n");
         scanf("%d", &num);
         system("cls");
@@ -249,52 +249,62 @@ void gerarRelatorio() {
             case 1:
                 //gerar relatório
                 if (empresaEncontrada) {
-                    do{
-                        printf("Relatorio Geral:\n - Responsavel: %s\n - Empresa: %s\n - Razao social: %s\n - Fantasia: %s\n - Email: %s\n - CPF: %s\n - Telefone: %s\n - CNPJ: %s\n - Rua: %s\n - Numero: %s\n - CEP: %s\n - Estado: %s\n", 
-                        empresa[i].nomeResponsavel, empresa[i].nomeEmpresa, 
-                        empresa[i].razaoSocial, empresa[i].nomeFantasia, 
-                        empresa[i].email, empresa[i].cpf, empresa[i].telefone, 
-                        empresa[i].cnpj, empresa[i].endereco.rua, empresa[i].endereco.numero,
-                        empresa[i].endereco.cep, empresa[i].endereco.estado); 
-                        
-                        printf("------------------------------\n");
-                        printf("Relatorio de insumos e gastos:\n");
-                        printf("- Residuos tratados semestralmente: %d\n- Gastos mensais: %.2f\n", 
-                        empresa[i].relatorio.residuosTratados*6, empresa[i].relatorio.gastosMensais*30);
-                        
-                        printf("\nDeseja gerar o arquivo do relatorio acima?\n [1]Gerar arquivo\n [0]Voltar ao menu principal\n");
-                        scanf("%d", &num);
-                        
-                        //gerar arquivo do relatório
-                        if(num == 1) {
-                            char fileName[20];
-                            sprintf(fileName, "empresa_%s.txt", empresa[i].nomeEmpresa);
-                            FILE *ponteiroFile = fopen(fileName, "w");
-                    
-                            if (ponteiroFile == NULL) {
-                            perror("Erro ao abrir o arquivo");
-                            exit(1);}
+                    gerarRelatorio(i, num);
+                    num = 0;
 
-                            fprintf(ponteiroFile, "Relatório Geral:\n • Responsável: %s\n • Empresa: %s\n • Razão social: %s\n • Fantasia: %s\n • Email: %s\n • CPF: %s\n • Telefone: %s\n • CNPJ: %s\n • Rua: %s\n • Número: %s\n • CEP: %s\n • Estado: %s\n", 
-                            empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
-                            empresa[i].razaoSocial, empresa[i].nomeFantasia,
-                            empresa[i].email, empresa[i].cpf, empresa[i].telefone, 
-                            empresa[i].cnpj, empresa[i].endereco.rua, empresa[i].endereco.numero, 
-                            empresa[i].endereco.cep, empresa[i].endereco.estado);
-                           
-                            fprintf(ponteiroFile, "------------------------------\nRelatório de insumos e gastos:\n"); 
-                            fprintf(ponteiroFile, "• Resíduos tratados semestralmente: %d\n• Gastos mensais: %.2f\n",empresa[i].relatorio.residuosTratados*6, empresa[i].relatorio.gastosMensais*30);
-                        
-                            fclose(ponteiroFile);
-                            num = 0;
-                            system("cls");
-                        };
-                    }while(num != 0);
-                
                 }else {
                     printf("Nao e possivel gerar relatorio para uma empresa nao cadastrada.\n");
                 }
                 break;
         }
     } while (num != 0);
+}
+
+void gerarRelatorio(int i, int num)
+{
+    while(num != 0){
+        printf("Relatorio Geral:\n - Responsavel: %s\n - Empresa: %s\n - Razao social: %s\n - Fantasia: %s\n - Email: %s\n - CPF: %s\n - Telefone: %s\n - CNPJ: %s\n - Rua: %s\n - Numero: %s\n - CEP: %s\n - Estado: %s\n",
+               empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
+               empresa[i].razaoSocial, empresa[i].nomeFantasia,
+               empresa[i].email, empresa[i].cpf, empresa[i].telefone,
+               empresa[i].cnpj, empresa[i].endereco.rua, empresa[i].endereco.numero,
+               empresa[i].endereco.cep, empresa[i].endereco.estado);
+
+        printf("------------------------------\n");
+        printf("Relatorio de insumos e gastos:\n");
+        printf("- Residuos tratados semestralmente: %d\n- Gastos mensais: %.2f\n",
+               empresa[i].relatorio.residuosTratados * 6, empresa[i].relatorio.gastosMensais * 30);
+
+        printf("\nDeseja gerar o arquivo do relatorio acima?\n [1]Gerar arquivo\n [0]Voltar ao menu principal\n");
+        scanf("%d", &num);
+
+        // gerar arquivo do relatório
+        if (num == 1)
+        {
+            char fileName[20];
+            sprintf(fileName, "empresa_%s.txt", empresa[i].nomeEmpresa);
+            FILE *ponteiroFile = fopen(fileName, "w");
+
+            if (ponteiroFile == NULL)
+            {
+                perror("Erro ao abrir o arquivo");
+                exit(1);
+            }
+
+            fprintf(ponteiroFile, "Relatório Geral:\n • Responsável: %s\n • Empresa: %s\n • Razão social: %s\n • Fantasia: %s\n • Email: %s\n • CPF: %s\n • Telefone: %s\n • CNPJ: %s\n • Rua: %s\n • Número: %s\n • CEP: %s\n • Estado: %s\n",
+                    empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
+                    empresa[i].razaoSocial, empresa[i].nomeFantasia,
+                    empresa[i].email, empresa[i].cpf, empresa[i].telefone,
+                    empresa[i].cnpj, empresa[i].endereco.rua, empresa[i].endereco.numero,
+                    empresa[i].endereco.cep, empresa[i].endereco.estado);
+
+            fprintf(ponteiroFile, "------------------------------\nRelatório de insumos e gastos:\n");
+            fprintf(ponteiroFile, "• Resíduos tratados semestralmente: %d\n• Gastos mensais: %.2f\n", empresa[i].relatorio.residuosTratados * 6, empresa[i].relatorio.gastosMensais * 30);
+
+            fclose(ponteiroFile);
+            num = 0;
+            system("cls");
+            break; 
+        }
+    }
 }
