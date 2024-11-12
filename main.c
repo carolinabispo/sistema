@@ -5,6 +5,7 @@
 #include <string.h>
 
 #define MAX_EMPRESAS 20
+#define QTD_LETRAS 26
 
 char user[20];
 char password[20];
@@ -48,6 +49,8 @@ void relatorio();
 void relatoriosIndividuais();
 void gerarRelatorio();
 void atualizaRelatorio();
+void criptografar();
+void descriptografar();
 
 int main()
 {
@@ -136,50 +139,62 @@ void cadastrar()
             puts("Nome do responsavel da empresa:");
             scanf(" %29[^\n]", empresa[i].nomeResponsavel);
             getchar();
+            criptografar(empresa[i].nomeResponsavel);
 
             printf("Nome da empresa: ");
             scanf(" %19[^\n]", empresa[i].nomeEmpresa);
             getchar();
+            criptografar(empresa[i].nomeEmpresa);
 
             printf("Razao Social: ");
             scanf(" %29[^\n]", empresa[i].razaoSocial);
             getchar();
+            criptografar(empresa[i].razaoSocial);
 
             printf("Nome Fantasia: ");
             scanf(" %29[^\n]", empresa[i].nomeFantasia);
             getchar();
+            criptografar(empresa[i].nomeFantasia);
 
             printf("Email: ");
             scanf(" %19[^\n]", empresa[i].email);
             getchar();
+            criptografar(empresa[i].email);
 
             printf("CPF: ");
             scanf(" %14[^\n]", empresa[i].cpf);
             getchar();
+            criptografar(empresa[i].cpf);
 
             printf("Telefone: ");
             scanf(" %14[^\n]", empresa[i].telefone);
             getchar();
+            criptografar(empresa[i].telefone);
 
             printf("CNPJ: ");
             scanf(" %14[^\n]", empresa[i].cnpj);
             getchar();
+            criptografar(empresa[i].cnpj);
 
             printf("Nome da rua: ");
             scanf(" %49[^\n]", empresa[i].endereco.rua);
             getchar();
+            criptografar(empresa[i].endereco.rua);
 
             printf("Numero: ");
             scanf(" %49[^\n]", empresa[i].endereco.numero);
             getchar();
+            criptografar(empresa[i].endereco.numero);
 
             printf("CEP: ");
             scanf(" %49[^\n]", empresa[i].endereco.cep);
             getchar();
+            criptografar(empresa[i].endereco.cep);
 
             printf("Estado: ");
             scanf(" %19[^\n]", empresa[i].endereco.estado);
             getchar();
+            criptografar(empresa[i].endereco.estado);
 
             printf("Empresa cadastrada, aperte enter para continuar");
             getchar();
@@ -210,10 +225,15 @@ void relatoriosIndividuais()
 
     for (i = 0; i < MAX_EMPRESAS; i++)
     {
-        if (strstr(empresa[i].nomeEmpresa, nomeEmpresa) != NULL)
+        char nomeEmpresaDescriptografado[20];
+        strcpy(nomeEmpresaDescriptografado, empresa[i].nomeEmpresa);
+        descriptografar(nomeEmpresaDescriptografado);
+
+        if (strstr(nomeEmpresaDescriptografado, nomeEmpresa) != NULL)
         {
+            descriptografar(empresa[i].nomeEmpresa);
             printf("A pesquisa retornou os seguintes resultados:\n");
-            printf("Nome da empresa: %s\n", empresa[i].nomeEmpresa);
+            printf("Nome da empresa: %s\n", nomeEmpresaDescriptografado);
 
             empresaEncontrada = 1;
             break;
@@ -250,6 +270,8 @@ void relatorio()
     {
         system("cls");
         printf("Digite o nome da empresa que deseja exibir o relatorio\n");
+        descriptografar(nomeEmpresa);
+
         scanf(" %19[^\n]", nomeEmpresa);
         getchar();
 
@@ -286,7 +308,7 @@ void relatorio()
             }
             else
             {
-                printf("Nao e possivel gerar relatorio para uma empresa nao cadastrada.\n");
+                printf("Nao é possivel gerar relatorio para uma empresa nao cadastrada.\n");
             }
             break;
         }
@@ -295,20 +317,43 @@ void relatorio()
 
 void gerarRelatorio(int i, int num)
 {
+
     while (num != 0)
     {
         printf("Relatorio Geral:\n");
+        descriptografar(empresa[i].nomeResponsavel);
         printf("Responsavel: %s\n", empresa[i].nomeResponsavel);
+
         printf("Empresa: %s\n", empresa[i].nomeEmpresa);
+
+        descriptografar(empresa[i].razaoSocial);
         printf("Razao social: %s\n", empresa[i].razaoSocial);
+
+        descriptografar(empresa[i].nomeFantasia);
         printf("Nome Fantasia: %s\n", empresa[i].nomeFantasia);
+
+        descriptografar(empresa[i].email);
         printf("Email: %s\n", empresa[i].email);
+
+        descriptografar(empresa[i].cpf);
         printf("CPF: %s\n", empresa[i].cpf);
+
+        descriptografar(empresa[i].telefone);
         printf("Telefone: %s\n", empresa[i].telefone);
+
+        descriptografar(empresa[i].cnpj);
         printf("CNPJ: %s\n", empresa[i].cnpj);
+
+        descriptografar(empresa[i].endereco.rua);
         printf("Rua: %s\n", empresa[i].endereco.rua);
+
+        descriptografar(empresa[i].endereco.numero);
         printf("Numero: %s\n", empresa[i].endereco.numero);
+
+        descriptografar(empresa[i].endereco.cep);
         printf("CEP: %s\n", empresa[i].endereco.cep);
+
+        descriptografar(empresa[i].endereco.estado);
         printf("Estado: %s\n", empresa[i].endereco.estado);
 
         printf("------------------------------\n");
@@ -322,6 +367,7 @@ void gerarRelatorio(int i, int num)
         // gerar arquivo do relatório
         if (num == 1)
         {
+
             char fileName[20];
             sprintf(fileName, "./empresa_%s.txt", empresa[i].nomeEmpresa);
             FILE *ponteiroFile = fopen(fileName, "w");
@@ -331,6 +377,7 @@ void gerarRelatorio(int i, int num)
                 perror("Erro ao abrir o arquivo");
                 exit(1);
             }
+
             fprintf(ponteiroFile, "Relatório Geral:\n • Responsável: %s\n • Empresa: %s\n • Razão social: %s\n • Fantasia: %s\n • Email: %s\n • CPF: %s\n • Telefone: %s\n • CNPJ: %s\n • Rua: %s\n • Número: %s\n • CEP: %s\n • Estado: %s\n",
                     empresa[i].nomeResponsavel, empresa[i].nomeEmpresa,
                     empresa[i].razaoSocial, empresa[i].nomeFantasia,
@@ -437,5 +484,23 @@ void atualizaRelatorio(int i, int num)
             system("cls");
             break;
         }
+    }
+}
+
+void criptografar(char *str)
+{
+    int i;
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        str[i] = str[i] + 3;
+    }
+}
+
+void descriptografar(char *str)
+{
+    int i;
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        str[i] = str[i] - 3;
     }
 }
