@@ -308,7 +308,7 @@ void relatorio()
             }
             else
             {
-                printf("Nao e possivel gerar relatorio para uma empresa nao cadastrada.\n");
+                printf("Nao é possivel gerar relatorio para uma empresa nao cadastrada.\n");
             }
             break;
         }
