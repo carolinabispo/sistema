@@ -1,1 +1,0 @@
-Respons�vel: b, Empresa: b,Razão social: bb,Fantasia: b, Email: b,CPF reponsável: 1, Telefone: 1,CNPJ: 11, Rua: b, Número: 1, CEP: 1, Estado: b
