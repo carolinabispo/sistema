@@ -1,0 +1,19 @@
+Relatório Geral:
+ • Responsável: `
+ • Empresa: ]
+ • Razão social: f
+ • Fantasia: f
+ • Email: f
+ • CPF: f
+ • Telefone: f
+ • CNPJ: f
+ • Rua: f
+ • Número: f
+ • CEP: f
+ • Estado: f
+------------------------------
+Relatório de insumos e gastos:
+• Resíduos tratados semestralmente: 666
+• Gastos mensais: 3330,00
+
+---------------------------------------
