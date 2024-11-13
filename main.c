@@ -31,7 +31,9 @@ typedef struct
     char nomeEmpresa[20];
     char razaoSocial[30];
     char nomeFantasia[30];
+
     char email[40];
+
     char cpf[12];
     char telefone[10];
     char cnpj[21];
@@ -50,6 +52,7 @@ void cadastrarInsumosEGastos();
 void relatorio();
 void atualizarInfo();
 void gerarRelatorio();
+
 void criptografar();
 void descriptografar();
 
@@ -110,16 +113,20 @@ void menu()
         switch (num)
         {
         case 1:
+
             cadastrarEmpresa();
             break;
         case 2:
             cadastrarInsumosEGastos();
+
             break;
         case 3:
             relatorio();
             break;
         case 4:
+
             atualizarInfo();
+
             break;
         }
 
@@ -127,7 +134,10 @@ void menu()
     } while (num != 0);
 }
 
+
 void cadastrarEmpresa()
+
+
 {
     system("cls");
     int num, i;
@@ -183,7 +193,9 @@ void cadastrarEmpresa()
             criptografar(empresa[i].endereco.rua);
 
             printf("Numero: ");
+
             scanf(" %51[^\n]", empresa[i].endereco.numero);
+
             getchar();
             criptografar(empresa[i].endereco.numero);
 
@@ -193,6 +205,7 @@ void cadastrarEmpresa()
             criptografar(empresa[i].endereco.cep);
 
             printf("Estado: ");
+
             scanf(" %21[^\n]", empresa[i].endereco.estado);
             getchar();
             criptografar(empresa[i].endereco.estado);
@@ -202,6 +215,7 @@ void cadastrarEmpresa()
             system("cls");
 
             printf("\n[1] Continuar cadastro\n[0] Voltar ao menu principal\n");
+
             scanf("%d", &num);
             system("cls");
 
@@ -211,12 +225,17 @@ void cadastrarEmpresa()
     } while (num != 0);
 }
 
+
 void cadastrarInsumosEGastos()
+
+
+
 {
     char nomeEmpresa[20];
     int i, num;
 
     system("cls");
+
     printf("Digite o nome da empresa que deseja cadastrar os dados:\n");
     scanf(" %19[^\n]", nomeEmpresa);
     getchar();
@@ -277,7 +296,10 @@ void relatorio()
         getchar();
         system("cls");
 
-        int empresaEncontrada = 0;
+
+
+    int empresaEncontrada = 0;
+
 
         for (i = 0; i < MAX_EMPRESAS; i++)
         {
@@ -286,10 +308,19 @@ void relatorio()
                 printf("A pesquisa retornou os seguintes resultados:\n");
                 printf("Nome da empresa: %s\n", empresa[i].nomeEmpresa);
 
-                empresaEncontrada = 1;
-                break;
-            }
+   
+
+
+        if (strstr(nomeEmpresaDescriptografado, nomeEmpresa) != NULL)
+        {
+            descriptografar(empresa[i].nomeEmpresa);
+            printf("A pesquisa retornou os seguintes resultados:\n");
+            printf("Nome da empresa: %s\n", nomeEmpresaDescriptografado);
+
+            empresaEncontrada = 1;
+            break;
         }
+
         if (!empresaEncontrada)
         {
             printf("Empresa nao cadastrada\n");
@@ -328,6 +359,8 @@ void atualizarInfo()
         system("cls");
         printf("Digite o nome da empresa que deseja atualizar os dados\n");
         scanf(" %21[^\n]", nomeEmpresa);
+
+
         getchar();
         system("cls");
 
@@ -335,6 +368,7 @@ void atualizarInfo()
 
         for (i = 0; i < MAX_EMPRESAS; i++)
         {
+
             char nomeEmpresaDescriptografado[20];
             strcpy(nomeEmpresaDescriptografado, empresa[i].nomeEmpresa);
             descriptografar(nomeEmpresaDescriptografado);
@@ -342,6 +376,7 @@ void atualizarInfo()
             if (strstr(nomeEmpresaDescriptografado, nomeEmpresa) != NULL)
             {
                 descriptografar(empresa[i].nomeEmpresa);
+
                 printf("A pesquisa retornou os seguintes resultados:\n");
                 printf("Nome da empresa: %s\n", nomeEmpresaDescriptografado);
 
@@ -349,6 +384,7 @@ void atualizarInfo()
                 break;
             }
         }
+
         if (empresaEncontrada)
         {
             printf("\ninsira os dados abaixo:\n");
@@ -363,6 +399,7 @@ void atualizarInfo()
             printf("Atualizacoes realizadas com sucesso!\n");
         }
         else
+
         {
             printf("Empresa nao cadastrada\n");
         }
@@ -378,15 +415,18 @@ void atualizarInfo()
             if (empresaEncontrada)
             {
                 gerarRelatorio(i);
+
                 num = 0;
             }
             else
             {
                 printf("Nao é possivel gerar relatorio para uma empresa nao cadastrada.\n");
+
                 getchar();
                 system("cls");
                 num = 0;
             }
+
         }
     }
 }
@@ -395,7 +435,9 @@ void atualizarInfo()
 
 void gerarRelatorio(int i)
 {
+
     int num = 1;
+
 
     while (num != 0)
     {
@@ -466,7 +508,9 @@ void gerarRelatorio(int i)
                     empresa[i].endereco.cep, empresa[i].endereco.estado);
 
             fprintf(ponteiroFile, "------------------------------\nRelatório de insumos e gastos:\n");
+
             fprintf(ponteiroFile, "• Resíduos tratados semestralmente: %d\n• Gastos mensais: %.2f", empresa[i].relatorio.residuosTratados * 6, empresa[i].relatorio.gastosMensais * 30);
+
             fprintf(ponteiroFile, "\n---------------------------------------\n");
 
             fclose(ponteiroFile);
@@ -493,6 +537,10 @@ void gerarRelatorio(int i)
     criptografar(empresa[i].endereco.cep);
     criptografar(empresa[i].endereco.estado);
 }
+
+
+
+
 
 void criptografar(char *str)
 {

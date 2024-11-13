@@ -1,1 +1,0 @@
-Responsável: carol, Empresa: teste1,Razão social: x,Fantasia: c, Email: v,CPF reponsável: 1, Telefone: 2,CNPJ: 3, Rua: b, Número: 5, CEP: 6, Estado: sp
