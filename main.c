@@ -5,7 +5,6 @@
 #include <string.h>
 
 #define MAX_EMPRESAS 20
-#define QTD_LETRAS 26
 
 char user[20];
 char password[20];
@@ -46,7 +45,7 @@ void login();
 void menu();
 void cadastrar();
 void relatorio();
-void relatoriosIndividuais();
+void cadastrarRelatorio();
 void gerarRelatorio();
 void atualizaRelatorio();
 void criptografar();
@@ -56,40 +55,25 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    // login();
+    login();
     menu();
     return 0;
 }
 
 void login()
 {
-    const char correctUser[10] = "usuario";
-    const char correctPassword[10] = "senha123";
-    int logado = 0;
+    system("cls");
+    printf("BEM VINDO, INSIRA SEU USUÁRIO E SENHA NOS CAMPOS ABAIXO\n");
 
-    while ((logado == 0))
-    {
-        system("cls");
-        printf("BEM VINDO, INSIRA SEU USUARIO E SENHA NOS CAMPOS ABAIXO:\n");
-        printf("Nome de usuario:\n");
-        scanf("%s", user);
-        getchar();
+    printf("Insira seu nome:\n");
+    fgets(user, 21, stdin);
+    fflush(stdin);
 
-        printf("Insira sua senha:\n");
-        scanf("%s", password);
-        getchar();
+    printf("Insira sua senha:\n");
+    fgets(password, 21, stdin);
+    fflush(stdin);
 
-        if (strcmp(user, correctUser) == 0 && strcmp(password, correctPassword) == 0)
-        {
-            printf("\n\nLOGADO!\n\n");
-            logado = 1;
-        }
-        else if (user != correctUser || password != correctPassword)
-        {
-            printf("Nome de usuario ou senha incorretos.\n");
-            getchar();
-        }
-    }
+    printf("\n\nLOGADO!\n\n");
 }
 
 void menu()
@@ -112,13 +96,16 @@ void menu()
             cadastrar();
             break;
         case 2:
-            relatoriosIndividuais();
+            cadastrarRelatorio();
             break;
         case 3:
             relatorio();
             break;
         case 4:
             atualizaRelatorio();
+            break;
+        case 0:
+            printf("Saindo...");
             break;
         }
 
@@ -210,7 +197,7 @@ void cadastrar()
     } while (num != 0);
 }
 
-void relatoriosIndividuais()
+void cadastrarRelatorio()
 {
     char nomeEmpresa[20];
     int i, num;
@@ -300,7 +287,6 @@ void relatorio()
         switch (num)
         {
         case 1:
-            // gerar relatório
             if (empresaEncontrada)
             {
                 gerarRelatorio(i, num);
@@ -439,9 +425,6 @@ void atualizaRelatorio(int i, int num)
             getchar();
 
             printf("Atualizacoes realizadas com sucesso!\n");
-            // printf("[0] Sair\n");
-            // scanf("%d", &num);
-            // system("cls");
         }
         else
         {
